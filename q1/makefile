@@ -3,6 +3,8 @@ DEBUG ?= 1
 # Compiler and compiler flags
 CXX = g++
 CXXFLAGS = -std=c++17 -Wall -Wextra
+GCOV = -fprofile-arcs -ftest-coverage
+VALGRIND_FLAGS=-v --leak-check=full --show-leak-kinds=all  --error-exitcode=99
 
 ifeq ($(DEBUG), 1)
     CXXFLAGS += -DDEBUG
@@ -11,7 +13,6 @@ endif
 # Source files
 SRCS = main.cpp Kosaraju.cpp
 
-# Object files
 OBJS = $(SRCS:.cpp=.o)
 
 # Output binary
@@ -21,8 +22,6 @@ OUTPUTS_FOLDER = outputs
 INPUTS_FOLDER = inputs
 EXPECTED_FOLDER = expected
 GCOV_OUTPUTS = gcov_outputs
-
-GCOV = -fprofile-arcs -ftest-coverage
 
 all: $(TARGET)
 
@@ -55,8 +54,8 @@ coverage:
 	mv *.gcno $(GCOV_OUTPUTS)
 
 tidy:
-	clang-tidy $(CODE_SOURCES) -checks=bugprone-*,clang-analyzer-*,cppcoreguidelines-*,performance-*,portability-*,readability-*,-cppcoreguidelines-pro-bounds-pointer-arithmetic,-cppcoreguidelines-owning-memory --warnings-as-errors=-* --
-	# clang-tidy $(CODE_SOURCES) -checks=bugprone-*,clang-analyzer-*,cppcoreguidelines-*,performance-*,portability-*,-cppcoreguidelines-pro-bounds-pointer-arithmetic,-cppcoreguidelines-owning-memory --warnings-as-errors=-* --
+	clang-tidy $(SRCS) -checks=bugprone-*,clang-analyzer-*,cppcoreguidelines-*,performance-*,portability-*,readability-*,-cppcoreguidelines-pro-bounds-pointer-arithmetic,-cppcoreguidelines-owning-memory --warnings-as-errors=-* --
+	# clang-tidy $(SRCS) -checks=bugprone-*,clang-analyzer-*,cppcoreguidelines-*,performance-*,portability-*,-cppcoreguidelines-pro-bounds-pointer-arithmetic,-cppcoreguidelines-owning-memory --warnings-as-errors=-* --
 
 valgrind: $(TARGET)
 	valgrind --tool=memcheck $(VALGRIND_FLAGS) ./$(TARGET) 2>&1 | { egrep "lost| at " || true; }
