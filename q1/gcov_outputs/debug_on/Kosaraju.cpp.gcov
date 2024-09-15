@@ -1,0 +1,102 @@
+        -:    0:Source:Kosaraju.cpp
+        -:    1:#include "Kosaraju.hpp"
+        -:    2:#include <iostream>
+        -:    3:#include <algorithm>
+        -:    4:
+        -:    5:// Q1: Kosaraju's Algorithm to find Strongly Connected Components for a directed graph
+        -:    6:/*
+        -:    7:Input from the standard input 2 numbers. +LF
+        -:    8:The first number describes the number of vertices in the graph.
+        -:    9:The second number describes the number of arcs in the graph.
+        -:   10:The first number (the vertices) is called n.
+        -:   11:The second number (the arcs) is called m.
+        -:   12:The vertices of the graph are numbered as size_ts from 1 to n.
+        -:   13:After reading the first pair, m more pairs are called, each pair representing an arc
+        -:   14:The pair (1,2) will represent the arc from 1 to 2.
+        -:   15: */
+        -:   16:
+        -:   17:using std::vector, std::cout, std::endl, std::stack, std::fill;
+        -:   18:
+        1:   19:Kosaraju::Kosaraju(int vertices) : n(vertices) {
+        1:   20:    adj.resize(n);
+        -:   21:    // Transpose while adding arcs
+        -:   22:    // adjT.resize(n);
+        -:   23:    #ifdef DEBUG
+        1:   24:        cout << "Initialized Kosaraju with " << vertices << " vertices.\n";
+        -:   25:    #endif
+        1:   26:}
+        -:   27:
+        5:   28:void Kosaraju::addArc(int u, int v) {
+        5:   29:    adj[u - 1].push_back(v - 1); // Adjust for 0-based indexing
+        -:   30:    // Transpose while adding arcs
+        -:   31:    // adjT[v - 1].push_back(u - 1); // Adjust for 0-based indexing
+        5:   32:}
+        -:   33:
+        1:   34:vector<vector<int>> Kosaraju::transposeGraph() {
+        1:   35:    vector<vector<int>> transposed(n);
+        6:   36:    for(int v = 0; v < n; ++v) {
+       10:   37:        for(int i : adj[v]) {
+        5:   38:            transposed[i].push_back(v);
+        -:   39:        }
+        -:   40:    }
+        1:   41:    return transposed;
+    =====:   42:}
+        -:   43:
+        5:   44:void Kosaraju::dfs(int v, vector<vector<int>> &adj, vector<bool> &visited, stack<int> &Stack) {
+        5:   45:    visited[v] = true;
+       10:   46:    for(int i : adj[v])
+        5:   47:        if(!visited[i])
+        4:   48:            dfs(i, adj, visited, Stack);
+        5:   49:    Stack.push(v);
+        5:   50:}
+        -:   51:
+        5:   52:void Kosaraju::dfsOnTranspose(int v, vector<vector<int>> &adj, vector<bool> &visited, vector<int> &scc) {
+        5:   53:    visited[v] = true;
+        5:   54:    scc.push_back(v);
+       10:   55:    for(int i : adj[v])
+        5:   56:        if(!visited[i])
+        2:   57:            dfsOnTranspose(i, adj, visited, scc);
+        5:   58:}
+        -:   59:
+        1:   60:void Kosaraju::findSCCs() {
+        1:   61:    stack<int> stk;
+        1:   62:    vector<bool> visited(n, false);
+        -:   63:
+        -:   64:    // First DFS - Fill the stack with vertices based on finishing times
+        6:   65:    for(int i = 0; i < n; ++i)
+        5:   66:        if(!visited[i])
+        1:   67:            dfs(i, adj, visited, stk);
+        -:   68:
+        -:   69:    // Transpose the graph 
+        1:   70:    vector<vector<int>> transposed = transposeGraph();
+        -:   71:
+        -:   72:    // Clear visited array for the second DFS
+        1:   73:    fill(visited.begin(), visited.end(), false);
+        -:   74:
+        1:   75:    vector<vector<int>> allSCCs; // To collect all SCCs
+        -:   76:
+        -:   77:    // Second DFS (on the transpose of the graph) - Process all vertices in the order defined by the stack
+        6:   78:    while(!stk.empty()) {
+        5:   79:        int v = stk.top();
+        5:   80:        stk.pop();
+        -:   81:        
+        5:   82:        if(!visited[v]) {
+        3:   83:            vector<int> scc;
+        3:   84:            dfsOnTranspose(v, transposed, visited, scc);
+        3:   85:            allSCCs.push_back(scc); // Collect SCC
+        3:   86:        }
+        -:   87:    }
+        -:   88:
+        -:   89:    // Print all SCCs
+        -:   90:    #ifdef DEBUG
+        1:   91:        cout << "Strongly Connected Components (SCCs):\n";
+        -:   92:    #endif
+        4:   93:    for(const auto& scc : allSCCs) {
+        -:   94:        #ifdef DEBUG
+        3:   95:            cout << "SCC: ";
+        -:   96:        #endif
+        8:   97:        for(int vertex : scc)
+        5:   98:            cout << vertex + 1 << " "; // Output 1-based vertex indices
+        3:   99:        cout << endl;
+        -:  100:    }
+        1:  101:}

@@ -1,0 +1,44 @@
+        -:    0:Source:main.cpp
+        -:    1:#include "Kosaraju.hpp"
+        -:    2:#include <iostream>
+        -:    3:
+        -:    4:using namespace std;
+        -:    5:
+        1:    6:int main() {
+        -:    7:        int n, m;
+        -:    8:        #ifdef DEBUG
+        1:    9:            cout << "Choose number of vertices: ";
+        -:   10:        #endif
+        1:   11:        cin >> n;
+        -:   12:        #ifdef DEBUG
+        1:   13:            cout << "Choose the number of edges: ";
+        -:   14:        #endif
+        1:   15:        cin >> m;
+        -:   16:
+        1:   17:    Kosaraju kosaraju(n);
+        -:   18:
+        -:   19:    // Reading the arcs
+        6:   20:    for(int i = 0; i < m; ++i) {
+        -:   21:        int u, v;
+        -:   22:        #ifdef DEBUG
+        5:   23:            cout << "Choose fromVertice: ";
+        -:   24:        #endif
+        5:   25:        cin >> u;
+        -:   26:        #ifdef DEBUG
+        5:   27:            cout << "Choose toVertice: ";
+        -:   28:        #endif
+        5:   29:        cin >> v;
+        5:   30:        kosaraju.addArc(u, v);
+        -:   31:    }
+        -:   32:
+        -:   33:    #ifdef DEBUG
+        1:   34:        std::cout << "Starting Kosaraju's algorithm to find SCCs.\n";
+        -:   35:    #endif
+        -:   36:    // Finding and printing SCCs
+        1:   37:    kosaraju.findSCCs();
+        -:   38:
+        -:   39:    #ifdef DEBUG
+        1:   40:        std::cout << "Finished finding SCCs.\n";
+        -:   41:    #endif
+        1:   42:    return 0;
+        1:   43:}

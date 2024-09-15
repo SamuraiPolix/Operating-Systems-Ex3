@@ -1,0 +1,85 @@
+File 'main.cpp'
+Lines executed:100.00% of 11
+Creating 'main.cpp.gcov'
+
+File '/usr/include/c++/11/iostream'
+No executable lines
+Removing 'iostream.gcov'
+
+File '/usr/include/c++/11/ext/new_allocator.h'
+Lines executed:84.21% of 19
+Creating 'new_allocator.h.gcov'
+
+File '/usr/include/c++/11/bits/stl_construct.h'
+Lines executed:100.00% of 14
+Creating 'stl_construct.h.gcov'
+
+File '/usr/include/c++/11/bits/alloc_traits.h'
+Lines executed:100.00% of 17
+Creating 'alloc_traits.h.gcov'
+
+File '/usr/include/c++/11/bits/stl_vector.h'
+Lines executed:89.38% of 113
+Creating 'stl_vector.h.gcov'
+
+File '/usr/include/c++/11/bits/allocator.h'
+Lines executed:100.00% of 5
+Creating 'allocator.h.gcov'
+
+File '/usr/include/c++/11/bits/move.h'
+Lines executed:100.00% of 6
+Creating 'move.h.gcov'
+
+File 'Kosaraju.hpp'
+No executable lines
+Removing 'Kosaraju.hpp.gcov'
+
+File 'Kosaraju.cpp'
+Lines executed:97.96% of 49
+Creating 'Kosaraju.cpp.gcov'
+
+File '/usr/include/c++/11/bits/stl_algobase.h'
+Lines executed:65.22% of 46
+Creating 'stl_algobase.h.gcov'
+
+File '/usr/include/c++/11/bits/stl_iterator.h'
+Lines executed:100.00% of 17
+Creating 'stl_iterator.h.gcov'
+
+File '/usr/include/c++/11/bits/cpp_type_traits.h'
+Lines executed:100.00% of 2
+Creating 'cpp_type_traits.h.gcov'
+
+File '/usr/include/c++/11/bits/stl_uninitialized.h'
+Lines executed:100.00% of 34
+Creating 'stl_uninitialized.h.gcov'
+
+File '/usr/include/c++/11/ext/alloc_traits.h'
+Lines executed:100.00% of 2
+Creating 'alloc_traits.h.gcov'
+
+File '/usr/include/c++/11/bits/stl_deque.h'
+Lines executed:78.10% of 137
+Creating 'stl_deque.h.gcov'
+
+File '/usr/include/c++/11/bits/deque.tcc'
+Lines executed:0.00% of 42
+Creating 'deque.tcc.gcov'
+
+File '/usr/include/c++/11/bits/stl_bvector.h'
+Lines executed:88.68% of 106
+Creating 'stl_bvector.h.gcov'
+
+File '/usr/include/c++/11/bits/vector.tcc'
+Lines executed:73.77% of 61
+Creating 'vector.tcc.gcov'
+
+File '/usr/include/c++/11/bits/stl_stack.h'
+Lines executed:100.00% of 11
+Creating 'stl_stack.h.gcov'
+
+File '/usr/include/c++/11/new'
+Lines executed:66.67% of 3
+Creating 'new.gcov'
+
+Lines executed:80.86% of 695
