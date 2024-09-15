@@ -1,0 +1,86 @@
+        -:    0:Source:kosaraju_adjmatrix.cpp
+        -:    1:#include "kosaraju_adjmatrix.hpp"
+        -:    2:#include <iostream>
+        -:    3:#include <algorithm>
+        -:    4:
+        2:    5:KosarajuAdjMatrix::KosarajuAdjMatrix(int vertices) : n(vertices) {
+        2:    6:    adj.resize(n, std::vector<bool>(n, false));
+        2:    7:    std::cout << "Initialized KosarajuAdjMatrix with " << vertices << " vertices.\n";
+        2:    8:}
+        -:    9:
+        6:   10:void KosarajuAdjMatrix::addArc(int u, int v) {
+        6:   11:    if (u < 1 || u > n || v < 1 || v > n) {
+        1:   12:        std::cerr << "Error: Invalid vertices (" << u << ", " << v << "). Vertices must be between 1 and " << n << ".\n";
+        1:   13:        return;
+        -:   14:    }
+        5:   15:    adj[u - 1][v - 1] = true; // Adjust for 0-based indexing
+        -:   16:}
+        -:   17:
+        2:   18:std::vector<std::vector<bool>> KosarajuAdjMatrix::transposeGraph() {
+        4:   19:    std::vector<std::vector<bool>> transposed(n, std::vector<bool>(n, false));
+        8:   20:    for (int v = 0; v < n; ++v) {
+       32:   21:        for (int i = 0; i < n; ++i) {
+       26:   22:            if (adj[v][i]) {
+        5:   23:                transposed[i][v] = true;
+        -:   24:            }
+        -:   25:        }
+        -:   26:    }
+        2:   27:    return transposed;
+    =====:   28:}
+        -:   29:
+        6:   30:void KosarajuAdjMatrix::dfs(int v, std::vector<std::vector<bool>> &adj, std::vector<bool> &visited, std::stack<int> &Stack) {
+        6:   31:    visited[v] = true;
+       32:   32:    for (int i = 0; i < n; ++i) {
+       26:   33:        if (adj[v][i] && !visited[i])
+        4:   34:            dfs(i, adj, visited, Stack);
+        -:   35:    }
+        6:   36:    Stack.push(v);
+        6:   37:}
+        -:   38:
+        6:   39:void KosarajuAdjMatrix::dfsOnTranspose(int v, std::vector<std::vector<bool>> &adj, std::vector<bool> &visited, std::vector<int> &scc) {
+        6:   40:    visited[v] = true;
+        6:   41:    scc.push_back(v);
+       32:   42:    for (int i = 0; i < n; ++i) {
+       26:   43:        if (adj[v][i] && !visited[i])
+        2:   44:            dfsOnTranspose(i, adj, visited, scc);
+        -:   45:    }
+        6:   46:}
+        -:   47:
+        2:   48:void KosarajuAdjMatrix::findSCCs() {
+        2:   49:    std::stack<int> Stack;
+        2:   50:    std::vector<bool> visited(n, false);
+        -:   51:
+        -:   52:    // Fill the stack with vertices based on finishing times
+        8:   53:    for (int i = 0; i < n; ++i)
+        6:   54:        if (!visited[i])
+        2:   55:            dfs(i, adj, visited, Stack);
+        -:   56:
+        -:   57:    // Transpose the graph
+        2:   58:    std::vector<std::vector<bool>> transposed = transposeGraph();
+        -:   59:
+        -:   60:    // Clear visited array for the second DFS
+        2:   61:    std::fill(visited.begin(), visited.end(), false);
+        -:   62:
+        2:   63:    std::vector<std::vector<int>> allSCCs; // To collect all SCCs
+        -:   64:
+        -:   65:    // Process all vertices in the order defined by the stack
+        8:   66:    while (!Stack.empty()) {
+        6:   67:        int v = Stack.top();
+        6:   68:        Stack.pop();
+        -:   69:
+        6:   70:        if (!visited[v]) {
+        4:   71:            std::vector<int> scc;
+        4:   72:            dfsOnTranspose(v, transposed, visited, scc);
+        4:   73:            allSCCs.push_back(scc); // Collect SCC
+        4:   74:        }
+        -:   75:    }
+        -:   76:
+        -:   77:    // Print all SCCs
+        2:   78:    std::cout << "Strongly Connected Components (SCCs):\n";
+        6:   79:    for (const auto& scc : allSCCs) {
+        4:   80:        std::cout << "SCC: ";
+       10:   81:        for (int vertex : scc)
+        6:   82:            std::cout << vertex + 1 << " "; // Output 1-based vertex indices
+        4:   83:        std::cout << std::endl;
+        -:   84:    }
+        2:   85:}

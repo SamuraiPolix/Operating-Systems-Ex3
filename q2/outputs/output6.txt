@@ -1,0 +1,6 @@
+Enter number of vertices: Enter number of arcs: Choose implementation (list, deque, adjmatrix): Initialized KosarajuAdjMatrix with 1 vertices.
+Enter arcs (fromVertice toVertice):
+Starting Kosaraju's algorithm to find SCCs.
+Strongly Connected Components (SCCs):
+SCC: 1 
+Finished finding SCCs.

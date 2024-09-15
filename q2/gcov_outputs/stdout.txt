@@ -1,0 +1,101 @@
+File 'kosaraju_list.cpp'
+Lines executed:98.15% of 54
+Creating 'kosaraju_list.cpp.gcov'
+
+File '/usr/include/c++/11/iostream'
+No executable lines
+Removing 'iostream.gcov'
+
+File '/usr/include/c++/11/bits/stl_algobase.h'
+Lines executed:56.25% of 64
+Creating 'stl_algobase.h.gcov'
+
+File '/usr/include/c++/11/bits/stl_vector.h'
+Lines executed:83.85% of 130
+Creating 'stl_vector.h.gcov'
+
+File '/usr/include/c++/11/bits/move.h'
+Lines executed:100.00% of 6
+Creating 'move.h.gcov'
+
+File '/usr/include/c++/11/ext/new_allocator.h'
+Lines executed:84.21% of 19
+Creating 'new_allocator.h.gcov'
+
+File '/usr/include/c++/11/bits/stl_iterator.h'
+Lines executed:78.12% of 32
+Creating 'stl_iterator.h.gcov'
+
+File '/usr/include/c++/11/bits/allocator.h'
+Lines executed:55.56% of 9
+Creating 'allocator.h.gcov'
+
+File '/usr/include/c++/11/bits/cpp_type_traits.h'
+Lines executed:100.00% of 2
+Creating 'cpp_type_traits.h.gcov'
+
+File '/usr/include/c++/11/bits/stl_list.h'
+Lines executed:68.75% of 64
+Creating 'stl_list.h.gcov'
+
+File '/usr/include/c++/11/bits/alloc_traits.h'
+Lines executed:77.27% of 22
+Creating 'alloc_traits.h.gcov'
+
+File '/usr/include/c++/11/bits/stl_uninitialized.h'
+Lines executed:79.69% of 64
+Creating 'stl_uninitialized.h.gcov'
+
+File '/usr/include/c++/11/bits/list.tcc'
+Lines executed:0.00% of 9
+Creating 'list.tcc.gcov'
+
+File '/usr/include/c++/11/bits/stl_construct.h'
+Lines executed:100.00% of 14
+Creating 'stl_construct.h.gcov'
+
+File '/usr/include/c++/11/ext/alloc_traits.h'
+Lines executed:33.33% of 6
+Creating 'alloc_traits.h.gcov'
+
+File '/usr/include/c++/11/bits/stl_deque.h'
+Lines executed:53.74% of 147
+Creating 'stl_deque.h.gcov'
+
+File '/usr/include/c++/11/bits/deque.tcc'
+Lines executed:12.24% of 49
+Creating 'deque.tcc.gcov'
+
+File '/usr/include/c++/11/bits/stl_bvector.h'
+Lines executed:55.90% of 195
+Creating 'stl_bvector.h.gcov'
+
+File '/usr/include/c++/11/ext/aligned_buffer.h'
+Lines executed:0.00% of 4
+Creating 'aligned_buffer.h.gcov'
+
+File '/usr/include/c++/11/bits/allocated_ptr.h'
+Lines executed:90.00% of 10
+Creating 'allocated_ptr.h.gcov'
+
+File '/usr/include/c++/11/bits/vector.tcc'
+Lines executed:61.68% of 107
+Creating 'vector.tcc.gcov'
+
+File '/usr/include/c++/11/bits/stl_stack.h'
+Lines executed:100.00% of 11
+Creating 'stl_stack.h.gcov'
+
+File '/usr/include/c++/11/new'
+Lines executed:66.67% of 3
+Creating 'new.gcov'
+
+File 'kosaraju_deque.cpp'
+Lines executed:98.15% of 54
+Creating 'kosaraju_deque.cpp.gcov'
+
+File 'kosaraju_adjmatrix.cpp'
+Lines executed:98.18% of 55
+Creating 'kosaraju_adjmatrix.cpp.gcov'
+
+Lines executed:68.05% of 1130

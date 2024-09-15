@@ -1,0 +1,82 @@
+        -:    0:Source:kosaraju_list.cpp
+        -:    1:#include "kosaraju_list.hpp"
+        -:    2:#include <iostream>
+        -:    3:#include <algorithm>
+        -:    4:
+        2:    5:KosarajuList::KosarajuList(int vertices) : n(vertices) {
+        2:    6:    adj.resize(n);
+        2:    7:    std::cout << "Initialized KosarajuList with " << vertices << " vertices.\n";
+        2:    8:}
+        -:    9:
+        6:   10:void KosarajuList::addArc(int u, int v) {
+        6:   11:    if (u < 1 || u > n || v < 1 || v > n) {
+        1:   12:        std::cerr << "Error: Invalid vertices (" << u << ", " << v << "). Vertices must be between 1 and " << n << ".\n";
+        1:   13:        return;
+        -:   14:    }
+        5:   15:    adj[u - 1].push_back(v - 1); // Adjust for 0-based indexing
+        -:   16:}
+        -:   17:
+        2:   18:std::vector<std::list<int>> KosarajuList::transposeGraph() {
+        2:   19:    std::vector<std::list<int>> transposed(n);
+        8:   20:    for (int v = 0; v < n; ++v) {
+       11:   21:        for (int i : adj[v]) {
+        5:   22:            transposed[i].push_back(v);
+        -:   23:        }
+        -:   24:    }
+        2:   25:    return transposed;
+    =====:   26:}
+        -:   27:
+        6:   28:void KosarajuList::dfs(int v, std::vector<std::list<int>> &adj, std::vector<bool> &visited, std::stack<int> &Stack) {
+        6:   29:    visited[v] = true;
+       11:   30:    for (int i : adj[v])
+        5:   31:        if (!visited[i])
+        4:   32:            dfs(i, adj, visited, Stack);
+        6:   33:    Stack.push(v);
+        6:   34:}
+        -:   35:
+        6:   36:void KosarajuList::dfsOnTranspose(int v, std::vector<std::list<int>> &adj, std::vector<bool> &visited, std::vector<int> &scc) {
+        6:   37:    visited[v] = true;
+        6:   38:    scc.push_back(v);
+       11:   39:    for (int i : adj[v])
+        5:   40:        if (!visited[i])
+        2:   41:            dfsOnTranspose(i, adj, visited, scc);
+        6:   42:}
+        -:   43:
+        2:   44:void KosarajuList::findSCCs() {
+        2:   45:    std::stack<int> Stack;
+        2:   46:    std::vector<bool> visited(n, false);
+        -:   47:
+        -:   48:    // Fill the stack with vertices based on finishing times
+        8:   49:    for (int i = 0; i < n; ++i)
+        6:   50:        if (!visited[i])
+        2:   51:            dfs(i, adj, visited, Stack);
+        -:   52:
+        -:   53:    // Transpose the graph
+        2:   54:    std::vector<std::list<int>> transposed = transposeGraph();
+        -:   55:
+        -:   56:    // Clear visited array for the second DFS
+        2:   57:    std::fill(visited.begin(), visited.end(), false);
+        -:   58:
+        2:   59:    std::vector<std::vector<int>> allSCCs; // To collect all SCCs
+        -:   60:
+        -:   61:    // Process all vertices in the order defined by the stack
+        8:   62:    while (!Stack.empty()) {
+        6:   63:        int v = Stack.top();
+        6:   64:        Stack.pop();
+        -:   65:
+        6:   66:        if (!visited[v]) {
+        4:   67:            std::vector<int> scc;
+        4:   68:            dfsOnTranspose(v, transposed, visited, scc);
+        4:   69:            allSCCs.push_back(scc); // Collect SCC
+        4:   70:        }
+        -:   71:    }
+        -:   72:
+        -:   73:    // Print all SCCs
+        2:   74:    std::cout << "Strongly Connected Components (SCCs):\n";
+        6:   75:    for (const auto& scc : allSCCs) {
+        4:   76:        std::cout << "SCC: ";
+       10:   77:        for (int vertex : scc)
+        6:   78:            std::cout << vertex + 1 << " "; // Output 1-based vertex indices
+        4:   79:        std::cout << std::endl;
+        -:   80:    }
+        2:   81:}
