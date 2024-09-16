@@ -1,0 +1,100 @@
+        -:    0:Source:Kosaraju.cpp
+        -:    1:#include "Kosaraju.hpp"
+        -:    2:#include <iostream>
+        -:    3:#include <algorithm>
+        -:    4:
+        3:    5:Kosaraju::Kosaraju(int vertices) : n(vertices) {
+        3:    6:    adj.resize(n);
+        -:    7:    // std::cout << "Initialized Kosaraju with " << vertices << " vertices.\n";
+        3:    8:}
+        -:    9:
+        3:   10:void Kosaraju::resetGraph(int vertices) {
+        3:   11:    n = vertices;
+        3:   12:    adj.clear();
+        3:   13:    adj.resize(n);
+        3:   14:}
+        -:   15:
+        3:   16:int Kosaraju::removeArc(int u, int v) {
+        3:   17:    if (u < 1 || u > n || v < 1 || v > n) {
+        1:   18:        std::cerr << "Error: Invalid vertices (" << u << ", " << v << "). Vertices must be between 1 and " << n << ".\n";
+        1:   19:        return -1;
+        -:   20:    }
+        2:   21:    auto it = std::find(adj[u - 1].begin(), adj[u - 1].end(), v - 1);
+        2:   22:    if (it != adj[u - 1].end()) {
+        1:   23:        adj[u - 1].erase(it);
+        1:   24:        return 0;
+        -:   25:    }
+        1:   26:    std::cerr << "Error: Edge from " << u << " to " << v << " does not exist.\n";
+        1:   27:    return -1;
+        -:   28:}
+        -:   29:
+       18:   30:int Kosaraju::addArc(int u, int v) {
+       18:   31:    if (u < 1 || u > n || v < 1 || v > n) {
+        2:   32:        std::cerr << "Error: Invalid vertices (" << u << ", " << v << "). Vertices must be between 1 and " << n << ".\n";
+        2:   33:        return -1;
+        -:   34:    }
+       16:   35:    if (std::find(adj[u - 1].begin(), adj[u - 1].end(), v - 1) != adj[u - 1].end()) {
+        2:   36:        std::cerr << "Error: Edge from " << u << " to " << v << " already exists.\n";
+        2:   37:        return -1;
+        -:   38:    }
+       14:   39:    adj[u - 1].push_back(v - 1); // Adjust for 0-based indexing
+       14:   40:    return 0;
+        -:   41:}
+        -:   42:
+        3:   43:std::vector<std::deque<int>> Kosaraju::transposeGraph() {
+        3:   44:    std::vector<std::deque<int>> transposed(n);
+       18:   45:    for (int v = 0; v < n; ++v) {
+       31:   46:        for (int i : adj[v]) {
+       16:   47:            transposed[i].push_back(v);
+        -:   48:        }
+        -:   49:    }
+        3:   50:    return transposed;
+    =====:   51:}
+        -:   52:
+       15:   53:void Kosaraju::dfs(int v, std::vector<std::deque<int>> &adj, std::vector<bool> &visited, std::stack<int> &Stack) {
+       15:   54:    visited[v] = true;
+       31:   55:    for (int i : adj[v])
+       16:   56:        if (!visited[i])
+       12:   57:            dfs(i, adj, visited, Stack);
+       15:   58:    Stack.push(v);
+       15:   59:}
+        -:   60:
+       15:   61:void Kosaraju::dfsOnTranspose(int v, std::vector<std::deque<int>> &adj, std::vector<bool> &visited, std::vector<int> &scc) {
+       15:   62:    visited[v] = true;
+       15:   63:    scc.push_back(v);
+       31:   64:    for (int i : adj[v])
+       16:   65:        if (!visited[i])
+        8:   66:            dfsOnTranspose(i, adj, visited, scc);
+       15:   67:}
+        -:   68:
+        3:   69:std::vector<std::vector<int>> Kosaraju::findSCCs() {
+        3:   70:    std::stack<int> Stack;
+        3:   71:    std::vector<bool> visited(n, false);
+        -:   72:
+        -:   73:    // Fill the stack with vertices based on finishing times
+       18:   74:    for (int i = 0; i < n; ++i)
+       15:   75:        if (!visited[i])
+        3:   76:            dfs(i, adj, visited, Stack);
+        -:   77:
+        -:   78:    // Transpose the graph
+        3:   79:    std::vector<std::deque<int>> transposed = transposeGraph();
+        -:   80:
+        -:   81:    // Clear visited array for the second DFS
+        3:   82:    std::fill(visited.begin(), visited.end(), false);
+        -:   83:
+        3:   84:    std::vector<std::vector<int>> allSCCs; // To collect all SCCs
+        -:   85:
+        -:   86:    // Process all vertices in the order defined by the stack
+       18:   87:    while (!Stack.empty()) {
+       15:   88:        int v = Stack.top();
+       15:   89:        Stack.pop();
+        -:   90:
+       15:   91:        if (!visited[v]) {
+        7:   92:            std::vector<int> scc;
+        7:   93:            dfsOnTranspose(v, transposed, visited, scc);
+        7:   94:            allSCCs.push_back(scc); // Collect SCC
+        7:   95:        }
+        -:   96:    }
+        -:   97:
+        6:   98:    return allSCCs;
+        3:   99:}
