@@ -1,0 +1,11 @@
+Graph created with 5 vertices and 5 edges.
+Added edge from 5 to 3.
+Calculating SCCs using Kosaraju's algorithm...
+Strongly Connected Components (SCCs):
+1 3 2 5 4 
+Removed edge from 5 to 3.
+Calculating SCCs using Kosaraju's algorithm...
+Strongly Connected Components (SCCs):
+1 3 2 
+4 
+5 

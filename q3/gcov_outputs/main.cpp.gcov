@@ -1,0 +1,67 @@
+        -:    0:Source:main.cpp
+        -:    1:#include "Kosaraju.hpp"
+        -:    2:#include <iostream>
+        -:    3:#include <sstream>
+        -:    4:#include <string>
+        -:    5:
+        -:    6:using std::cout;
+        -:    7:
+        3:    8:void printSCCs(const std::vector<std::vector<int>>& sccs) {
+        3:    9:    cout << "Strongly Connected Components (SCCs):\n";
+       10:   10:    for (const auto& scc : sccs) {
+       22:   11:        for (int vertex : scc) {
+       15:   12:            cout << vertex + 1 << " "; // Output 1-based vertex indices
+        -:   13:        }
+        7:   14:        cout << std::endl;
+        -:   15:    }
+        3:   16:}
+        -:   17:
+        -:   18:// ASSUMING INPUT IS CORRECT
+        3:   19:int main() {
+        3:   20:    Kosaraju kosaraju(0); // Initialize with 0 vertices initially
+        -:   21:
+        3:   22:    std::string command;
+        -:   23:    // We are using getline to read the entire line, as the command may have spaces - e.g., Newgraph 3 2
+        -:   24:    // (Every command should end with LF according to assignment)
+       17:   25:    while (std::getline(std::cin, command)) {       // pulls one line (until \n) to command
+       14:   26:        std::istringstream iss(command);        // create a stream from the command to act as if it was cin
+       14:   27:        std::string cmd;                // create a string to store the cmd command
+       14:   28:        iss >> cmd;             // read the first word from the command and store it in cmd
+        -:   29:
+       14:   30:        if (cmd == "Newgraph") {
+        -:   31:
+        -:   32:            int n, m;
+        3:   33:            iss >> n >> m;      // read the next two integers from the command and store them in n and m
+        3:   34:            kosaraju.resetGraph(n); // Reset graph with n vertices
+        -:   35:
+        -:   36:            // Read m pairs of edges
+       18:   37:            for (int i = 0; i < m; ++i) {
+       15:   38:                std::getline(std::cin, command);
+       15:   39:                std::istringstream issEdge(command);
+        -:   40:                int u, v;
+       15:   41:                issEdge >> u >> v;
+       15:   42:                kosaraju.addArc(u, v);
+       15:   43:            }
+        -:   44:
+        3:   45:            cout << "Graph created with " << n << " vertices and " << m << " edges.\n";
+       11:   46:        } else if (cmd == "Kosaraju") {
+        3:   47:            cout << "Calculating SCCs using Kosaraju's algorithm...\n";
+        3:   48:            std::vector<std::vector<int>> sccs = kosaraju.findSCCs();
+        3:   49:            printSCCs(sccs);
+       11:   50:        } else if (cmd == "Newedge") {
+        -:   51:            int i, j;
+        3:   52:            iss >> i >> j;
+        3:   53:            kosaraju.addArc(i, j);
+        3:   54:            cout << "Added edge from " << i << " to " << j << ".\n";
+        5:   55:        } else if (cmd == "Removeedge") {
+        -:   56:            int i, j;
+        3:   57:            iss >> i >> j;
+        3:   58:            kosaraju.removeArc(i, j);
+        3:   59:            cout << "Removed edge from " << i << " to " << j << ".\n";
+        -:   60:        } else {
+        2:   61:            cout << "Invalid command: " << cmd << ". Skipping...\n";
+        -:   62:        }
+       14:   63:    }
+        -:   64:
+        3:   65:    return 0;
+        3:   66:}
