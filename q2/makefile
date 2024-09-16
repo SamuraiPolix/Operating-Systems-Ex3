@@ -79,15 +79,15 @@ profile:
 	make clean
 	make all PROFILING=1
 	python3 inputs/generate_gprof_inputs.py
-	./$(TARGET) < $(INPUTS_FOLDER)/input_large_deque.txt > /dev/null || true
-	mv gmon.out $(GPROF_OUTPUTS)/gmon_deque.out
-	./$(TARGET) < $(INPUTS_FOLDER)/input_large_adjmatrix.txt > /dev/null || true
-	mv gmon.out $(GPROF_OUTPUTS)/gmon_adjmatrix.out
-	./$(TARGET) < $(INPUTS_FOLDER)/input_large_list.txt > /dev/null || true
-	mv gmon.out $(GPROF_OUTPUTS)/gmon_list.out
-	gprof $(TARGET) $(GPROF_OUTPUTS)/gmon_deque.out > $(GPROF_OUTPUTS)/gprof_deque.txt
-	gprof $(TARGET) $(GPROF_OUTPUTS)/gmon_adjmatrix.out > $(GPROF_OUTPUTS)/gprof_adjmatrix.txt
-	gprof $(TARGET) $(GPROF_OUTPUTS)/gmon_list.out > $(GPROF_OUTPUTS)/gprof_list.txt
+	./$(TARGET) < $(INPUTS_FOLDER)/100000-300000/input_large_deque.txt > /dev/null || true
+	mv gmon.out $(GPROF_OUTPUTS)/gmon_deque_largest.out
+	./$(TARGET) < $(INPUTS_FOLDER)/100000-300000/input_large_adjmatrix.txt > /dev/null || true
+	mv gmon.out $(GPROF_OUTPUTS)/100000-300000/gmon_adjmatrix_largest.out
+	./$(TARGET) < $(INPUTS_FOLDER)/100000-300000/input_large_list.txt > /dev/null || true
+	mv gmon.out $(GPROF_OUTPUTS)/gmon_list_largest.out
+	gprof $(TARGET) $(GPROF_OUTPUTS)/gmon_deque_largest.out > $(GPROF_OUTPUTS)/gprof_deque.txt
+	gprof $(TARGET) $(GPROF_OUTPUTS)/gmon_adjmatrix_largest.out > $(GPROF_OUTPUTS)/gprof_adjmatrix.txt
+	gprof $(TARGET) $(GPROF_OUTPUTS)/gmon_list_largest.out > $(GPROF_OUTPUTS)/gprof_list.txt
 
 tidy:
 	clang-tidy $(SRCS) -checks=bugprone-*,clang-analyzer-*,cppcoreguidelines-*,performance-*,portability-*,readability-*,-cppcoreguidelines-pro-bounds-pointer-arithmetic,-cppcoreguidelines-owning-memory --warnings-as-errors=-* --
