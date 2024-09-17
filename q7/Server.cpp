@@ -10,6 +10,7 @@
 #include <string.h>
 #include <unordered_map>
 #include <thread>
+#include <mutex>
 
 /*
  * We will merge the program of phase 3 and the chat of beej.
@@ -30,6 +31,10 @@
 #define MAXCONNECTIONS 10
 
 using std::cout, std::cin, std::endl, std::string;
+
+
+// Global mutex to protect shared graph
+std::mutex graph_mutex;
 
 void handle_client_command(int client_socket, const string& command, Kosaraju& graph, std::unordered_map<int, int>& client_expected_edges);
 void client_handler(int client_fd, Kosaraju& graph, std::unordered_map<int, int>& client_expected_edges);
@@ -113,6 +118,8 @@ int main() {
 }
 
 void handle_client_command(int client_socket, const string& command, Kosaraju& graph, std::unordered_map<int, int>& client_expected_edges) {
+    std::lock_guard<std::mutex> lock(graph_mutex);
+    
     // Like we did in q3
     std::istringstream iss(command);
     string cmd;
