@@ -1,33 +1,17 @@
 
+TARGETS = q1 q2 q3 q4 q5-6 q7
+
 # Declare non-files
-.PHONY: all clean q1 q2 q3 q4 q5 q6
+.PHONY: all clean $(TARGETS)
 
 # Make the programs for all questions
-all: q1 q2 q3 q4 q5-6
+all: $(TARGETS)
 
-q1:
-	make -C q1 all
-
-q2:
-	make -C q2 all
-
-q3:
-	make -C q3 all
-
-q4:
-	make -C q4 all
-
-q5-6:
-	make -C q5-6 all
-
-q6:
-	make -C q6 all
+$(TARGETS): %:
+	make -C $@ all
 
 # Clean programs for all questions
 clean:
-	make -C q1 clean
-	make -C q2 clean
-	make -C q3 clean
-	make -C q4 clean
-	make -C q5-6 clean
-	make -C q6 clean
+	for target in $(TARGETS); do \
+		make -C $$target clean; \
+	done
