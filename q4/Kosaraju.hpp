@@ -19,6 +19,7 @@ public:
     std::vector<std::vector<int>> findSCCs(); // Modify return type to vector of SCCs
     void resetGraph(int vertices);
     int removeArc(int u, int v);
+    int getNumVertices() const;
 
 private:
     void dfs(int v, std::vector<std::deque<int>> &adj, std::vector<bool> &visited, std::stack<int> &Stack);

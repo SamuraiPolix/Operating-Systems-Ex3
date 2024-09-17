@@ -13,6 +13,10 @@ void Kosaraju::resetGraph(int vertices) {
     adj.resize(n);
 }
 
+int Kosaraju::getNumVertices() const {
+    return n;
+}
+
 int Kosaraju::removeArc(int u, int v) {
     if (u < 1 || u > n || v < 1 || v > n) {
         std::cerr << "Error: Invalid vertices (" << u << ", " << v << "). Vertices must be between 1 and " << n << ".\n";

@@ -16,7 +16,7 @@ ifeq ($(COVERAGE), 1)
 endif
 
 # Source files
-SRCS = main.cpp Kosaraju.cpp
+SRCS = Server.cpp Kosaraju.cpp
 
 # Object files
 OBJS = $(SRCS:.cpp=.o)
@@ -36,7 +36,7 @@ all: $(TARGET)
 .PHONY: all clean test coverage tidy valgrind clean_gcov
 
 # Disable debug mode to ignore debug prints
-test:
+# test:
 	make clean
 	make all DEBUG=0
 	./$(TARGET) < $(INPUTS_FOLDER)/input1.txt > $(OUTPUTS_FOLDER)/output1.txt || true
@@ -44,13 +44,13 @@ test:
 	diff $(OUTPUTS_FOLDER)/output1.txt $(EXPECTED_FOLDER)/expected1.txt > /dev/null && echo "Output files are equal" || echo "Output files are not equal"
 	diff $(OUTPUTS_FOLDER)/output2.txt $(EXPECTED_FOLDER)/expected2.txt > /dev/null && echo "Output files are equal" || echo "Output files are not equal"
 
-coverage:
+# coverage:
 	make clean
 	make all COVERAGE=1 DEBUG=0
 	./$(TARGET) < $(INPUTS_FOLDER)/input1.txt || true
 	./$(TARGET) < $(INPUTS_FOLDER)/input2.txt || true
 	./$(TARGET) < $(INPUTS_FOLDER)/invalid1.txt || true
-	gcov Kosaraju.cpp main.cpp > $(GCOV_OUTPUTS)/stdout.txt
+	gcov Kosaraju.cpp Server.cpp > $(GCOV_OUTPUTS)/stdout.txt
 	mv *.gcov $(GCOV_OUTPUTS) || true
 	mv *.gcda $(GCOV_OUTPUTS) || true
 	mv *.gcno $(GCOV_OUTPUTS) || true
@@ -65,8 +65,8 @@ valgrind: $(TARGET)
 $(TARGET): $(OBJS)
 	$(CXX) $(CXXFLAGS) $(OBJS) -o $(TARGET)
 
-main.o: main.cpp $(DEPS)
-	$(CXX) $(CXXFLAGS) -c main.cpp
+Server.o: Server.cpp $(DEPS)
+	$(CXX) $(CXXFLAGS) -c Server.cpp
 
 Kosaraju.o: Kosaraju.cpp Kosaraju.hpp
 	$(CXX) $(CXXFLAGS) -c $<
