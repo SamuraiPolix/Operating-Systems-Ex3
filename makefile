@@ -1,5 +1,5 @@
 
-TARGETS = q1 q2 q3 q4 q5-6 q7
+TARGETS = q1 q2 q3 q4 q5-6 q7 q8-9-10
 
 # Declare non-files
 .PHONY: all clean $(TARGETS)
