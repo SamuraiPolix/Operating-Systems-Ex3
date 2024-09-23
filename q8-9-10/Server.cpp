@@ -13,7 +13,6 @@
 #include <thread>
 #include <mutex>
 #include <condition_variable>
-#include <netdb.h>  // For addrinfo and related functions
 #include "Kosaraju.hpp"
 #include "Proactor.hpp"
 
