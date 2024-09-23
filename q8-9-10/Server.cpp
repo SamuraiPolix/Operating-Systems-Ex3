@@ -16,7 +16,7 @@
 #include "Kosaraju.hpp"
 #include "Proactor.hpp"
 
-#define PORT 9036         // Port we're listening on
+#define PORT 9034         // Port we're listening on
 #define MAXCONNECTIONS 10
 
 // Mutex and condition variable for synchronization
