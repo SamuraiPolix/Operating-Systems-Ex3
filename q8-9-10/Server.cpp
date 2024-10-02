@@ -13,11 +13,10 @@
 #include <thread>
 #include <mutex>
 #include <condition_variable>
-#include <netdb.h>  // For addrinfo and related functions
 #include "Kosaraju.hpp"
 #include "Proactor.hpp"
 
-#define PORT 9036         // Port we're listening on
+#define PORT 9034         // Port we're listening on
 #define MAXCONNECTIONS 10
 
 // Mutex and condition variable for synchronization
